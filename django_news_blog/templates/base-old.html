@@ -1,0 +1,153 @@
+{% load cms_tags sekizai_tags %}
+{% load static %}
+{% load socialaccount %}
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>Fake News</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  {% block "scripts" %}
+  <!-- Favicons -->
+  <link href="{% static 'images/favicon.png' %}" rel="icon">
+  <link href="{% static 'images/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  {% addtoblock "css" %}
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700|Raleway:300,400,400i,500,500i,700,800,900"
+    rel="stylesheet">{% endaddtoblock %}
+
+  <!-- Bootstrap CSS File -->
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">{% endaddtoblock %}
+
+  <!-- Libraries CSS Files -->
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/nivo-slider/css/nivo-slider.css' %}" rel="stylesheet">{% endaddtoblock %}
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/owlcarousel/owl.carousel.css' %}" rel="stylesheet">{% endaddtoblock %}
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/owlcarousel/owl.transitions.css' %}" rel="stylesheet">{% endaddtoblock %}
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">{% endaddtoblock %}
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">{% endaddtoblock %}
+  {% addtoblock "css" %}
+  <link href="{% static 'lib/venobox/venobox.css' %}" rel="stylesheet">{% endaddtoblock %}
+
+  <!-- Nivo Slider Theme -->
+  {% addtoblock "css" %}
+  <link href="{% static 'css/nivo-slider-theme.css' %}" rel="stylesheet">{% endaddtoblock %}
+
+  <!-- Main Stylesheet File -->
+  {% addtoblock "css" %}
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">{% endaddtoblock %}
+
+  <!-- Responsive Stylesheet File -->
+  {% addtoblock "css" %}
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet">{% endaddtoblock %}
+  {% endblock %}
+  {% render_block "css" %}
+</head>
+</body>
+{% cms_toolbar %}
+
+<!-- {% cms_toolbar %} -->
+{% block base_product %}
+{% placeholder "base_product" %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block navbar %}
+{% include "partials/_navbar.html" %}
+{% endblock %}
+
+{% block user %}
+{% endblock %}
+
+{% block user-content %}
+{% endblock user-content %}
+
+{% block user-title %}
+{% endblock %}
+
+{% block user-form %}
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% static_placeholder "yo" %}
+
+{% block article %}
+{% endblock %}
+
+{% block articles %}
+{% endblock %}
+
+{% block elastic %}
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block comment %}
+{% endblock %}
+
+
+{% block about_footer %}
+{% include "partials/_about_footer.html" %}
+{% endblock %}
+
+
+
+
+{% addtoblock "js" %}
+<script src="{% static 'lib/jquery/jquery.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/venobox/venobox.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/knob/jquery.knob.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/wow/wow.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/parallax/parallax.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/nivo-slider/js/jquery.nivo.slider.js' %}" type="text/javascript"></script>
+{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/appear/jquery.appear.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'lib/isotope/isotope.pkgd.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'myapp/js/tinymce/tinymce.min.js' %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script type="text/javascript" src="{% static 'myapp/js/tinymce/custom.js' %}"></script> {% endaddtoblock %}
+{% addtoblock "js" %}
+<script src="{% static 'contactform/contactform.js' %}"></script>{% endaddtoblock %}
+
+{% addtoblock "js" %}
+<script src="{% static 'js/main.js' %}"></script>{% endaddtoblock %}
+{% render_block "js" %}
+
+
+</body>
+
+</html>

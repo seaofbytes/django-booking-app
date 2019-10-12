@@ -1,0 +1,6 @@
+Make a reservation
+
+<form method="POST" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="form-btn save btn btn-default">Send</button>
+</form>

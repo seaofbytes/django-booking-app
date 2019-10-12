@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load article_extras %}
+
+
+{% block article %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+
+{% show_results article.article_category %}
+
+<div class="preloader d-flex align-items-center justify-content-center">
+  <div class="spinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+  </div>
+</div>
+<!-- {% show_results article.article_category %} -->
+
+<!-- ##### Post Details Area Start ##### -->
+<section class="container post-details-area">
+  <div class="container single-article-div">
+    <hr class="hr-single-top">
+    <h2 id="article-title" class="single-article-titles">{{ article.title }}</h2>
+    <hr class="hr-single">
+    <img class="single-article-img" src="{{ article.image.all.0 }}" alt="">
+    <!-- *********************************** -->
+    <hr class="hr-single">
+    <p>Category: {{ article.article_category }}</p>
+    <hr class="hr-single">
+    <div class="row justify-content-center">
+      <!-- Post Details Content Area -->
+      <div class="col-12 col-xl-8">
+        <div class="post-details-content bg-white box-shadow">
+          <div class="blog-thumb">
+
+          </div>
+          <div class="blog-content">
+            <div class="post-meta">
+              <a href="#">{{ article.pub_date }}</a>
+            </div>
+            <h3 class="single-article-titles post-title"> {{ article.description }}</h3>
+            <hr>
+
+            <!-- Post Meta -->
+            <div class="post-meta-2">
+              <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
+              <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
+              <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+            </div>
+            <p>{{ article.article_text }}</p>
+            <hr />
+
+            {% include "partials/_thumbnails.html" %}
+
+            <hr>
+            <p>Author: {{ article.author }}</p>
+
+            <hr>
+
+            {% for comment in article.comments.all %}
+            <div class="comment">
+              <div class="date">{{ comment.created_date }}</div>
+              <strong>{{ comment.author }}</strong>
+              <p>{{ comment.text|linebreaks }}</p>
+            </div>
+            {% empty %}
+            <p>No comments here yet :(</p>
+            {% endfor %}
+          </div>
+          <!-- Post A Comment Area -->
+          {% if user.is_authenticated %}
+
+
+          <div class="post-a-comment-area bg-white mb-30 p-30 box-shadow clearfix">
+            <!-- Section Title -->
+            <div class="section-heading">
+              <h5>LEAVE A REPLY</h5>
+            </div>
+            <!-- Reply Form -->
+            <a class="btn btn-default comment-btn"
+              href="{% url 'news:add_comment_to_article' pk=article.pk %}#add-comment">Add
+              comment</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</section>
+<script>
+  jQuery(document).ready(function ($) {
+    //set here the speed to change the slides in the carousel
+    $('#myCarousel').carousel({
+      interval: 5000
+    });
+    //Loads the html to each slider. Write in the "div id="slide-content-x" what you want to show in each slide
+    $('#carousel-text').html($('#slide-content-0').html());
+    //Handles the carousel thumbnails
+    $('[id^=carousel-selector-]').click(function () {
+      var id = this.id.substr(this.id.lastIndexOf("-") + 1);
+      var id = parseInt(id);
+      $('#myCarousel').carousel(id);
+    });
+    // When the carousel slides, auto update the text
+    $('#myCarousel').on('slid.bs.carousel', function (e) {
+      var id = $('.item.active').data('slide-number');
+      $('#carousel-text').html($('#slide-content-' + id).html());
+    });
+  });
+
+</script>
+
+{% endblock %}

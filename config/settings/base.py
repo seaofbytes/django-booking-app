@@ -2,7 +2,9 @@
 Base settings to build other settings files upon.
 """
 
+
 import environ
+import os
 
 ROOT_DIR = (
     environ.Path(__file__) - 3
@@ -48,7 +50,7 @@ DATABASES = {
     'default': {
         'CONN_MAX_AGE': 0,
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'newsblog',                       # Or path to database file if using sqlite3.
+        'NAME': 'newsblog5',                       # Or path to database file if using sqlite3.
         'USER': 'admin',
         'PASSWORD': 'kraska13',
         # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
@@ -65,10 +67,33 @@ ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
 CMS_TEMPLATES = {
     ("home.html", "Home Template"),
+    ("news-base.html", "Index Template"),
+
 }
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+
+
+
+
+
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -76,17 +101,31 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
-    "django_news_blog.users.apps.UsersAppConfig",
+    "django_news_blog.users",
     'djangocms_admin_style',
     "django.contrib.admin",
+    'booking',
+    "news",
     'polls',
     'polls_cms_integration',
+    'news_cms_integration',
+    'django_admin_generator',
+    'tinymce',
+    'adminsortable2',
+    'django_elasticsearch_dsl',
+    'search',
+
 ]
 THIRD_PARTY_APPS = [
+    'allauth.socialaccount.providers.google',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
     "crispy_forms",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
     "rest_framework",
     'cms',
     'menus',
@@ -104,18 +143,30 @@ THIRD_PARTY_APPS = [
     'djangocms_snippet',
     'djangocms_style',
     'djangocms_column',
-    'aldryn_apphooks_config',
-    'aldryn_boilerplates',
-    'aldryn_categories',
-    'aldryn_common',
-    'aldryn_newsblog',
-    'aldryn_people',
+    # 'aldryn_apphooks_config',
+    # 'aldryn_boilerplates',
+    # 'aldryn_categories',
+    # 'aldryn_common',
+    # 'aldryn_newsblog',
+    # 'aldryn_people',
     # 'aldryn_reversion',
     'parler',
     'sortedm2m',
     'taggit',
+    'whoosh',
+    'haystack',
 ]
+WHOOSH_INDEX = os.path.join(ROOT_DIR, 'whoosh/')
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_INDEX,
+    },
+}
+
+
 ALDRYN_BOILERPLATE_NAME = 'bootstrap3'
+
 THUMBNAIL_HIGH_RESOLUTION = True
 
 THUMBNAIL_PROCESSORS = (
@@ -200,7 +251,7 @@ STATICFILES_DIRS = [str(APPS_DIR.path("static"))]
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    'aldryn_boilerplates.staticfile_finders.AppDirectoriesFinder',
+    # 'aldryn_boilerplates.staticfile_finders.AppDirectoriesFinder',
 ]
 
 # MEDIA
@@ -213,6 +264,9 @@ MEDIA_URL = "/media/"
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
+TEMPLATE_LOADERS = (
+    'django.template.loaders.app_directories.load_template_source',
+)
 TEMPLATES = [
     {
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
@@ -227,7 +281,7 @@ TEMPLATES = [
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
                 "django.template.loaders.app_directories.Loader",
-                'aldryn_boilerplates.template_loaders.AppDirectoriesLoader',
+                # 'aldryn_boilerplates.template_loaders.AppDirectoriesLoader',
             ],
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
@@ -241,7 +295,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 'sekizai.context_processors.sekizai',
                 'cms.context_processors.cms_settings',
-                'aldryn_boilerplates.context_processors.boilerplate',
+                # 'aldryn_boilerplates.context_processors.boilerplate',
             ],
         },
     }
@@ -263,7 +317,7 @@ CSRF_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
-X_FRAME_OPTIONS = "DENY"
+X_FRAME_OPTIONS = "ALLOWALL"
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -271,7 +325,6 @@ X_FRAME_OPTIONS = "DENY"
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
 )
-
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
@@ -286,7 +339,7 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -299,3 +352,32 @@ SOCIALACCOUNT_ADAPTER = "django_news_blog.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = "585791555499200"      # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '04615b75716106872d54ab1506a0f5a0'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'kr_KR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'}}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQURIED = True

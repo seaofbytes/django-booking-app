@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 from django_news_blog.users.forms import UserChangeForm, UserCreationForm
 
-User = get_user_model()
+from .models import User
 
 
 @admin.register(User)

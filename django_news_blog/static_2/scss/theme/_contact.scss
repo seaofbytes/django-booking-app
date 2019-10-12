@@ -1,0 +1,79 @@
+/* =================================== */
+
+/*  Contact Page Styles
+/* =================================== */
+
+.contact-page-area {
+    .contact-wrap {
+        padding: 20px;
+    }
+    .map-wrap {
+        margin-bottom: 80px;
+    }
+    .contact-btns {
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        padding: 40px;
+        color: $white;
+        margin-bottom: 30px;
+        &:hover {
+            color: $white;
+        }
+    }
+    .form-area {
+        .form-control {
+            background: #2e2e2e;
+            border: 0;
+            &:focus {
+                box-shadow: none !important;
+                border-color: none !important;
+            }
+        }
+        input {
+            padding: 12px;
+            height: 40px;
+            line-height: 40px;
+        }
+        input,
+        textarea {
+            border-radius: 0;
+            font-size: 13px !important;
+        }
+        textarea {
+            height: 150px;
+            margin-top: 0px;
+            padding: 15px;
+        }
+        .primary-btn {
+            margin-top: 15px;
+        }
+    }
+    .address-wrap {
+        @media(max-width: 991px) {
+            margin-bottom:30px;
+        }
+        .single-contact-address {
+            margin-bottom: 8px;
+            h5 {
+                font-weight: 300;
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+            .lnr {
+                font-size: 30px;
+                font-weight: 500;
+                color: $primary-color;
+                margin-right: 30px;
+            }
+            @media(max-width:1024px) and (min-width:990px) {
+                h5 {
+                    font-size: 14px;
+                }
+                p {
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+}

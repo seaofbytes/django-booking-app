@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load highlight %}
+
+{% block elastic %}
+
+
+
+<div class="search-results-wrapper container">
+    <h3 class="search-text">Search:</h3>
+    <form class="search" method="get">
+
+
+        <input class="search-input elastic" id="q" {% if request.GET.q %}value="{{ request.GET.q }}" {% endif %}
+            name="q" type="text" placeholder="your search..."><i class="fa fa-search search-icon"></i>
+    </form>
+    <h3>Search Results:</h3>
+    <hr>
+</div>
+
+{% for article in articles %}
+
+<div class="search-results-wrapper container">
+    <a class="post" href="{{ article.id }}/">
+        <div class="post__title post__article search-article-title">
+            {{ article.title }}
+        </div>
+    </a>
+    <div class=>
+        <img class="post__image__img" src="{{ article.image }}">
+    </div>
+    <div class="bottom-article-description">
+        {% highlight article.description with q %}
+    </div>
+</div>
+
+
+{% endfor %}
+
+{% endblock %}

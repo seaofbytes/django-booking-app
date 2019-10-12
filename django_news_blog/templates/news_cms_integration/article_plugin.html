@@ -1,0 +1,47 @@
+{% load sekizai_tags %}
+
+
+<h1>{{ instance.article.title }}</h1>
+
+<section class="container post-details-area">
+    <div class="container single-article-div">
+        <hr class="hr-single hr-top">
+        <h2 id="article-title" class="single-article-titles">{{ instance.article.title }}</h2>
+        <hr class="hr-single">
+        <img class="single-article-img" src="{{ instance.article.article_image.url }}" alt="">
+        <!-- *********************************** -->
+        <hr class="hr-single">
+        <p>Category: {{ instance.article.article_category }}</p>
+        <hr class="hr-single">
+        <div class="row justify-content-center">
+            <!-- Post Details Content Area -->
+            <div class="col-12 col-xl-8">
+                <div class="post-details-content bg-white box-shadow">
+                    <div class="blog-thumb">
+                    </div>
+                    <div class="blog-content">
+                        <div class="post-meta">
+                            <a href="#">{{ instance.article.pub_date }}</a>
+                        </div>
+                        <h3 class="single-article-titles post-title"> {{ instance.article.description }}</h3>
+                        <hr>
+
+                        <!-- Post Meta -->
+                        <div class="post-meta-2">
+                            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
+                            <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
+                            <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+                        </div>
+                        <p>{{ instance.article.article_text }}</p>
+                        <hr />
+
+                        {% include "partials/_thumbnails.html" %}
+
+                        <hr>
+                        <p>Author: {{ instance.article.author }}</p>
+
+                        <hr>
+                    </div>
+                </div>
+            </div>
+</section>

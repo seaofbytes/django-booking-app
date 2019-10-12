@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Datepicker - Display inline</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet"
+        href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/black-tie/jquery-ui.min.css">
+
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- ************************************************************************* -->
+    <!-- ************************************************************************* -->
+    <!-- <script>
+        $(function () {
+            var x = "{{ reservation.all.0.start_date }}"
+            console.log(x);
+            var array = ["10, 2, 2019"]
+
+            $('#datepicker').datepicker({
+                beforeShowDay: function (date) {
+                    var string = jQuery.datepicker.formatDate('mm-dd-yy', date);
+                    return [array.indexOf(string) == -1]
+                }
+            });
+        });
+    </script> -->
+    <!-- ************************************************************************* -->
+    <!-- ************************************************************************* -->
+
+    <!-- ************************************************************************* -->
+    <!-- ************************************************************************* -->
+    <script type="text/javascript">
+        var unavailableDates = "{{ unavailable_dates }}"
+        unavailableDates.replace(/datetime.date/g, "").replace(/[{()}]/g, '').replace(/]/g, ' ').replace("[", ' ').split()
+        var y = unavailableDates.match(/.{1,14}/g)
+        var dates = []
+        console.log(y);
+        y.forEach((date, i) => {
+
+            var now = moment(date).format('D-MM-YYYY');
+            dates.push(now)
+        })
+        console.log(dates);
+
+        function unavailable(date) {
+            dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            if ($.inArray(dmy, dates) == -1) {
+                return [true, ""];
+            } else {
+                return [false, "", "Unavailable"];
+            }
+        }
+
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-dd-MM',
+                beforeShowDay: unavailable
+            });
+
+        });
+    </script>
+</head>
+
+
+<body>
+    <h1>ud</h1>
+    <h1>{{unavailable_dates}}</h1>
+
+    <h1>{{ dict.start_date }}</h1>
+    <p>SINGLE APARTMENT LISTING</p>
+
+
+    <h1>{{ apartment.apartment.title }}</h1>
+    <h1>{{ reservation.all.0.start_date|date:"m-d-Y"  }}</h1>
+    <h1>{{ reservation.all.0.end_date }}</h1>
+
+
+    {% for r in reservation.all %}
+    <h1>{{ r.start_date }} - {{ r.name }}</h1>
+    <h1>{{ r.end_date }} - {{ r.name }}</h1>
+    {% endfor %}
+
+
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="form-btn save btn btn-default">Send</button>
+    </form>
+
+
+    <script>
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>

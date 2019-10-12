@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block polls_content %}
+<div class="jumbotron">
+    <hr class="my-4">
+    <h1 class="text-center display-4">Rate Us.</h1>
+    <p class="text-center lead">We would appreciate it if you take a look around and answer some questions to help us
+        improve our services !</p>
+    <hr class="my-4">
+</div>
+
+<div class="card border container polls-container">
+    {% if latest_poll_list %}
+    <ul class="text-center ul-cont">
+        {% for poll in latest_poll_list %}
+        <li class="card list-unstyled poll-question"><a class="poll-link"
+                href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</a>
+            <a class="href btn btn-success vote-btn" href="{% url 'polls:detail' poll.id %}">Vote
+                !</a> </button>
+        </li>
+
+        {% endfor %}
+    </ul>
+</div>
+
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
+
+{% endblock %}
