@@ -168,7 +168,7 @@ uritemplate==3.0.0
 urllib3==1.22
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.15.2
+Werkzeug==0.15.3
 whichcraft==0.6.1
 Whoosh==2.7.4
 wrapt==1.11.2
