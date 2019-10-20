@@ -7,23 +7,18 @@ from django.views import defaults as default_views
 from search import views
 
 urlpatterns = [
-    #path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    path('', include('news.urls', namespace="news")),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path('searching/', views.search, name='search'),
+    path('booking/search', views.search, name='search'),
     path("users/", include("django_news_blog.users.urls", namespace="users")),
     path('auth/', include('social_django.urls', namespace='social')),
     path('auth/', include('rest_framework_social_oauth2.urls')),
     path("accounts/", include("allauth.urls")),
-    path('polls/', include('polls.urls', namespace="polls")),
     path('booking/', include("booking.urls", namespace="booking")),
-    #path('search/', include('search.urls', namespace='search')),
-    #path('news/', include('news.urls', namespace="news")),
     path('', include('cms.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

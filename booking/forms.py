@@ -1,10 +1,8 @@
 
 from django import forms
-from django.forms.widgets import DateInput
 from django.contrib.auth.models import User
 from .models import Reservation
-from bootstrap_datepicker_plus import DatePickerInput
-from django.forms import ModelForm, TextInput
+from django.forms import TextInput
 
 
 class ReservationForm(forms.ModelForm):
@@ -20,8 +18,4 @@ class ReservationForm(forms.ModelForm):
             'end_date': TextInput(attrs={'id': 'datepicker2'}),
         }
 
-        # widgets = {
-        #     'start_date': DateInput(attrs={'id': "datepicker"}),
-        #     'end_date': DateInput(attrs={'id': 'datepicker'})
 
-        # }

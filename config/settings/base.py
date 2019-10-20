@@ -50,7 +50,7 @@ DATABASES = {
     'default': {
         'CONN_MAX_AGE': 0,
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'newsblog5',                       # Or path to database file if using sqlite3.
+        'NAME': 'app1',                       # Or path to database file if using sqlite3.
         'USER': 'admin',
         'PASSWORD': 'kraska13',
         # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
@@ -105,10 +105,6 @@ DJANGO_APPS = [
     'djangocms_admin_style',
     "django.contrib.admin",
     'booking',
-    "news",
-    'polls',
-    'polls_cms_integration',
-    'news_cms_integration',
     'django_admin_generator',
     'tinymce',
     'adminsortable2',

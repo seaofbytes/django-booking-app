@@ -1,15 +1,19 @@
 from django_elasticsearch_dsl import Document, Index
-from news.models import Article
-
-articles = Index('articles')
+from booking.models import Apartment
 
 
-@articles.document
-class ArticleDocument(Document):
+
+apartments = Index('apartments')
+
+
+@apartments.document
+class ApartmentDocument(Document):
     class Django:
-        model = Article
+        model = Apartment
 
         fields = [
             'title',
-            'description',
+            'id',
+            'bedrooms',
+            'list_date',
         ]

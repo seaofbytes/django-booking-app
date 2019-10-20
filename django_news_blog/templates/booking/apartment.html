@@ -1,106 +1,280 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Datepicker - Display inline</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{% static 'assets/css/all.css' %}">
     <link rel="stylesheet"
         href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/black-tie/jquery-ui.min.css">
-
-    <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- ************************************************************************* -->
-    <!-- ************************************************************************* -->
-    <!-- <script>
-        $(function () {
-            var x = "{{ reservation.all.0.start_date }}"
-            console.log(x);
-            var array = ["10, 2, 2019"]
-
-            $('#datepicker').datepicker({
-                beforeShowDay: function (date) {
-                    var string = jQuery.datepicker.formatDate('mm-dd-yy', date);
-                    return [array.indexOf(string) == -1]
-                }
-            });
-        });
-    </script> -->
-    <!-- ************************************************************************* -->
-    <!-- ************************************************************************* -->
-
-    <!-- ************************************************************************* -->
-    <!-- ************************************************************************* -->
     <script type="text/javascript">
         var unavailableDates = "{{ unavailable_dates }}"
-        unavailableDates.replace(/datetime.date/g, "").replace(/[{()}]/g, '').replace(/]/g, ' ').replace("[", ' ').split()
-        var y = unavailableDates.match(/.{1,14}/g)
-        var dates = []
-        console.log(y);
-        y.forEach((date, i) => {
-
-            var now = moment(date).format('D-MM-YYYY');
-            dates.push(now)
-        })
-        console.log(dates);
+        unavailableDates = unavailableDates.replace(/&quot;/g, "").replace(/]/g, "").replace(/ /g, "").replace("[", "").split(",")
 
         function unavailable(date) {
             dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-            if ($.inArray(dmy, dates) == -1) {
+            if ($.inArray(dmy, unavailableDates) == -1) {
                 return [true, ""];
             } else {
                 return [false, "", "Unavailable"];
             }
         }
+        console.log(unavailableDates);
 
         $(function () {
             $("#datepicker").datepicker({
-                dateFormat: 'yy-dd-MM',
+                dateFormat: 'yy-mm-dd',
                 beforeShowDay: unavailable
-            });
+            })
+        })
 
+        $(function () {
+            $("#datepicker2").datepicker({
+                dateFormat: 'yy-mm-dd',
+                beforeShowDay: unavailable
+            })
         });
+
+        $(function () {
+            $("#datepicker3").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 3,
+                beforeShowDay: unavailable,
+
+            })
+        });
+
     </script>
 </head>
 
 
 <body>
-    <h1>ud</h1>
-    <h1>{{unavailable_dates}}</h1>
 
-    <h1>{{ dict.start_date }}</h1>
-    <p>SINGLE APARTMENT LISTING</p>
+    <section id="top-bar" class="p-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="fas fa-phone"></i> (617)-555-5555
+                </div>
+                <div class="text-center col-md-4">
+                    <i class="fas fa-envelope-open"></i> contact@rentpal.co
+                </div>
+                <div class="col-md-4">
+                    <div class="social text-right">
+                        <a href="#">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    {% include "partials/_navbar_booking.html" %}
+    {% if date_start or date_end  %}
+    {% for price in prices %}
 
-    <h1>{{ apartment.apartment.title }}</h1>
-    <h1>{{ reservation.all.0.start_date|date:"m-d-Y"  }}</h1>
-    <h1>{{ reservation.all.0.end_date }}</h1>
+    <h1>{{ price.price_start_date }}</h1>
+    <h1>{{ price.price_end_date }}</h1>
+    <h1>{{ price.price }}</h1>
 
-
-    {% for r in reservation.all %}
-    <h1>{{ r.start_date }} - {{ r.name }}</h1>
-    <h1>{{ r.end_date }} - {{ r.name }}</h1>
     {% endfor %}
+    <h1>Start Date: {{ date_start }}</h1>
+    <h1>End Date: {{ date_end }}</h1>
+    <h1>Price Per Day: ${{ price_per_day }}$</h1>
+    <h1>Total: ${{ total_price }}$</h1>
+    {% endif %}
+    <!-- Listing -->
+    <section id="listing" class="py-4">
+        <h1 class="text-center">{{ apartment.title }}</h1>
+        <h3 class="text-center"></h3>
+        <div class="container">
+            <a href="http://localhost:8000/booking/apartments/" class="btn btn-light mb-4">Back To Listings</a>
+            <div class="row">
+                <div class="col-md-9">
+                    <!-- Home Main Image -->
+                    <img src="{{ apartment.photo_main.url }}" alt="" class="img-main img-fluid mb-3">
+                    <!-- Thumbnails -->
+                    <div class="row mb-5 thumbs">
+                        <div class="col-md-2">
+                            <a href="{{ apartment.image.all.0 }}" data-lightbox="home-images">
+                                <img src="{{ apartment.image.all.0 }}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ apartment.image.all.1 }}" data-lightbox="home-images">
+                                <img src="{{ apartment.image.all.1 }}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ apartment.image.all.2 }}" data-lightbox="home-images">
+                                <img src="{{ apartment.image.all.2 }}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ apartment.image.all.3 }}" data-lightbox="home-images">
+                                <img src="{{ apartment.image.all.3 }}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ apartment.image.all.4 }}" data-lightbox="home-images">
+                                <img src="{{ apartment.image.all.4 }}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ apartment.image.all.5 }}" data-lightbox="home-images">
+                                <img src="{{ apartment.image.all.5 }}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Fields -->
+                    <div class="row mb-5 fields">
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-money-bill-alt"></i> Asking Price:
+                                    <span class="float-right">{{ apartment.price }}</span>
+                                </li>
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-bed"></i> Bedrooms:
+                                    <span class="float-right">{{ apartment.bedrooms }}</span>
+                                </li>
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-bath"></i> Bathrooms:
+                                    <span class="float-right">{{ apartment.bathrooms }}</span>
+                                </li>
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-car"></i> Garage:
+                                    <span class="float-right">{{ apartment.garage }}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-th-large"></i> Square Feet:
+                                    <span class="float-right">{{ apartment.size }}</span>
+                                </li>
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-square"></i> Lot Size:
+                                    <span class="float-right">2.5 Acres
+                                    </span>
+                                </li>
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-calendar"></i> Listing Date:
+                                    <span class="float-right">{{ apartment.list_date }}</span>
+                                </li>
+                                <li class="list-group-item text-secondary">
+                                    <i class="fas fa-bed"></i> Realtor:
+                                    <span class="float-right">Kyle Brown
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-left:20px;" id="datepicker3"></div>
+                    <!-- Description -->
+                    <div class="row mb-5">
+                        <div class="col-md-12">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia recusandae esse reiciendis
+                            officia omnis non rerum dicta
+                            cupiditate nostrum molestias deserunt aut minus inventore animi atque, consequuntur ad
+                            fugit. Possimus culpa
+                            blanditiis repellendus ipsa similique ullam, natus error dolor harum.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div style="background:#2E2E2E;" class="card mb-3">
+                        <img class="card-img-top" src="{% static 'assets/img/realtors/kyle.jpg' %}"
+                            alt="Seller of the month">
+                        <div class="card-body">
+                            <h5 style="color:white;" class="text-secondary card-title">Property Realtor</h5>
+                            <h6 style="color:white;" class="">Kyle Brown</h6>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top:20px;">Choose dates</h3>
+                    <div style="margin-top:20px;" class="pick-dates-div">
+                        <form method="POST" class="post-form">{% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="form-btn save btn btn-default">Send</button>
+                        </form>
+                        <button style="margin-top: 25px;" class="btn-primary btn-block btn-lg" data-toggle="modal"
+                            data-target="#inquiryModal">More
+                            Questions ?</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Inquiry Modal -->
+    <div class="modal fade" id="inquiryModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inquiryModalLabel">Make An Inquiry</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="property_name" class="col-form-label">Property:</label>
+                            <input type="text" name="listing" class="form-control" value="45 Drivewood Cirlce" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-form-label">Email:</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-form-label">Phone:</label>
+                            <input type="text" name="phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="col-form-label">Message:</label>
+                            <textarea name="message" class="form-control"></textarea>
+                        </div>
+                        <hr>
+                        <input type="submit" value="Send" class="btn btn-block btn-secondary">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="form-btn save btn btn-default">Send</button>
-    </form>
+    <!-- Footer -->
+    <footer id="main-footer" class="py-4 bg-primary text-white text-center">
+        Copyright &copy;
+        <span class="year"></span> BT Real Estate
+    </footer>
 
-
-    <script>
-
-
-
-    </script>
 
 
 
 </body>
 
-</html>
+{% endblock %}

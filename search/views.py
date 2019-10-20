@@ -1,15 +1,27 @@
 from django.shortcuts import render
-from news.models import Article
-from search.documents import ArticleDocument
+from booking.models import Apartment
+from search.documents import ApartmentDocument
+
+
+# def search(request):
+#     articles = Article.objects.all()
+#     q = request.GET.get('q')
+
+#     if q:
+#         articles = ArticleDocument.search().query("match", title=q)
+#     else:
+#         articles = ''
+
+#     return render(request, 'search/search_elastic.html', {'articles': articles, "q": q, })
 
 
 def search(request):
-    articles = Article.objects.all()
+    apartments = Apartment.objects.all()
     q = request.GET.get('q')
 
     if q:
-        articles = ArticleDocument.search().query("match", title=q)
+        apartments = ApartmentDocument.search().query("match", title=q)
     else:
-        articles = ''
+        apartments = ''
 
-    return render(request, 'search/search_elastic.html', {'articles': articles, "q": q, })
+    return render(request, 'search/search_elastic.html', {'apartments': apartments, "q": q, })

@@ -2731,3 +2731,14 @@ span.email-notes {
 .index-img {
   width: 286px;  }
 
+.divbg{
+  background: #252525;
+}
+
+#id_name {
+  margin-left: 100px;
+}
+
+.pick-dates-div {
+  border: 1px solid white;
+}

@@ -17,9 +17,31 @@
     <hr>
 </div>
 
-{% for article in articles %}
+{% for apartment in apartments %}
 
 <div class="search-results-wrapper container">
+    <a class="post" href="{{ apartment.id }}/">
+        <div class="post__title post__article search-article-title">
+            {{ apartment.title }}
+        </div>
+    </a>
+    <div class=>
+        <img class="post__image__img" src="{{ apartment.photo_main }}">
+    </div>
+    <div class="bottom-article-description">
+        {% highlight apartment.title with q %}
+    </div>
+</div>
+
+
+{% endfor %}
+
+{% endblock %}
+
+
+
+
+<!-- <div class="search-results-wrapper container">
     <a class="post" href="{{ article.id }}/">
         <div class="post__title post__article search-article-title">
             {{ article.title }}
@@ -29,11 +51,6 @@
         <img class="post__image__img" src="{{ article.image }}">
     </div>
     <div class="bottom-article-description">
-        {% highlight article.description with q %}
+        % highlight article.description with q %
     </div>
-</div>
-
-
-{% endfor %}
-
-{% endblock %}
+</div> -->
