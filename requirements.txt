@@ -78,7 +78,7 @@ djangocms-snippet==2.2.0
 djangocms-style==2.2.0
 djangocms-text-ckeditor==3.8.0
 djangocms-video==2.1.1
-djangorestframework==3.9.3
+djangorestframework==3.11.2
 docutils==0.15.2
 easy-thumbnails==2.6
 elasticsearch==6.0.0
