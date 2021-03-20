@@ -98,7 +98,7 @@ ipython-genutils==0.2.0
 isort==4.3.21
 itypes==1.1.0
 jedi==0.15.1
-Jinja2==2.10.1
+Jinja2==2.11.3
 jinja2-time==0.2.0
 lazy-object-proxy==1.4.2
 lxml==4.4.1
