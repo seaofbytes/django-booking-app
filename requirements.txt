@@ -128,7 +128,7 @@ py==1.8.0
 pycodestyle==2.5.0
 pycparser==2.19
 pyflakes==2.1.1
-Pygments==2.4.2
+Pygments==2.7.4
 PyJWT==1.7.1
 pylint==2.3.1
 pylint-django==2.0.9
