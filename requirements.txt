@@ -43,7 +43,7 @@ django-classy-tags==0.9.0
 django-cms==3.6.0
 django-coverage-plugin==1.6.0
 django-crispy-forms==1.7.2
-django-debug-toolbar==1.11
+django-debug-toolbar==1.11.1
 django-elasticsearch-dsl==6.4.2
 django-environ==0.4.5
 django-extensions==2.1.6
